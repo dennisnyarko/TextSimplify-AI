@@ -10,6 +10,7 @@ const Demo = () => {
     });
 
     const [allArticles, setAllArticles] = useState([]);
+    const [copied, setCopied] = useState("");
 
     const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
@@ -38,6 +39,13 @@ const Demo = () => {
         }
     }
 
+    const handleCopy = (copyUrl) => {
+        setCopied(copyUrl);
+        navigator.clipboard.writeText(copyUrl);
+        setTimeout(() => setCopied(false), 3000);   
+
+    }
+
 
     return (
         <section className="mt-16 w-full max-w-xl">
@@ -61,9 +69,9 @@ const Demo = () => {
                             className="link_card"
                         >
 
-                            <div className="copy_btn">
+                            <div className="copy_btn" onClick={() => handleCopy(item.url)}>
                                 <img
-                                    src={copy}
+                                    src={copied === item.url ? tick : copy}
                                     alt="copy_icon"
                                     className="w-[40%] h-[40%] object-contain"
                                 />
